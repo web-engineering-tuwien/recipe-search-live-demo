@@ -1,0 +1,89 @@
+
+:root {
+    --primary-color: #9B2915;
+    --body-bg: #F2E6C1;
+    --header-bg: #FFFCF7;    
+    --debug-border: 1px solid var(--primary-color);            
+    /**/
+    --debug-border: 0px;/**/
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1em;
+    line-height: 1.5;
+    color: var(--primary-color);
+    background: var(--body-bg);
+}
+
+h1, h2, h3, ul {
+    margin: 0;
+}
+
+a { 
+    color: var(--primary-color);
+}
+a:hover { text-decoration: none; }
+
+.acknowledgement {
+    font-size: 0.7em;
+}
+
+header h1 {
+    font-size: 2em;
+}
+
+header {
+    background: var(--header-bg);
+    box-shadow: 0 1px 6px rgba(0,0,0,.1);
+}
+
+header .container {
+    display: flex;
+    height: 5em;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+main section {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    max-width: 500px;
+}
+
+section#search { 
+    margin-top: 2em;
+    text-align: center; 
+}
+
+section#results article { 
+    margin-top: 2em; 
+    border-bottom: 1px solid var(--primary-color);
+}
+section#results article > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+section#results article h2 {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+section#results article h3 {
+    text-align: center;
+}
+
+section#results article img {
+    display: block;
+}
+
+section#results article, section#results article * {
+    border: var(--debug-border);
+}
