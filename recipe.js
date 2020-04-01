@@ -6,3 +6,12 @@ export class Recipe {
         this.url = url;
     }
 }
+
+export var Ingredients = {
+    serialize : function(ingredients) {
+        return ingredients.join(',');
+    },
+    parse : function(ingredientString) {
+        return ingredientString.split(',');
+    }
+}
