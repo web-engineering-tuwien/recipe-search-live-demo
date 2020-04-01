@@ -8,6 +8,28 @@
         <link href="https://fonts.googleapis.com/css?family=Baloo+2&display=swap" rel="stylesheet">
         <link href="main.css" rel="stylesheet">
         <script type="module">
+            // If you want to test module imports locally, set up a local testing server
+            // https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server
+            import { Recipe } from './recipe.js';
+            import { RecipeDocumentContainer } from './recipe-dom.js';
+            import * as RecipeAPI from './recipe-api.js';
+
+            /*
+             * Retrieves recipes and inserts into document container
+             */
+            async function recipeSearch(ingredients) {
+                const recipes = await RecipeAPI.retrieve(ingredients);
+                if(!recipes) {
+                    alert("No recipes found!");
+                    return;
+                }
+                const recipeContainer = new RecipeDocumentContainer();
+                recipeContainer.clear();
+                for(let recipe of recipes) {
+                    recipeContainer.addRecipeToDocument(recipe);
+                }
+            }
+
             const searchInput = document.getElementById('ingredients');
             searchInput.addEventListener('click', event => event.target.style.border = '')
 
@@ -23,48 +45,6 @@
                 const ingredients = searchInput.value.split(',');
                 recipeSearch(ingredients);
             });
-
-            import { Recipe } from './recipe.js';
-            import { RecipeDocumentContainer } from './recipe-dom.js';
-
-            /*
-             * Retrieves recipes and inserts into document container
-             */
-            function recipeSearch(ingredients) {
-                const recipes = retrieveRecipes(ingredients);
-                if(!recipes) {
-                    alert("No recipes found!");
-                    return;
-                }
-                const recipeContainer = new RecipeDocumentContainer();
-                recipeContainer.clear();
-                for(let recipe of recipes) {
-                    recipeContainer.addRecipeToDocument(recipe);
-                }
-            }
-
-            //Mock recipes to build out initial functionality
-            function retrieveRecipes(ingredients) {
-                return [
-                    /*
-                    // The above code (using innerHTML) is vulnerable for the following kinds of injections
-                    // Comment out this element  to try it out
-                    new Recipe(`Jalapenjo Souffle
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png"
-                                onload="alert(\'security issue: injected code\');
-                                        this.parentNode.removeChild(this);" />`,
-                                ['eggs', 'jalapeno', 'cheese'],
-                                'http://img.recipepuppy.com/29939.jpg',
-                                'http://allrecipes.com/Recipe/Jalapeno-Souffle/Detail.aspx'),
-                    // */
-                    new Recipe('Jalapeno Souffle', ['eggs', 'jalapeno', 'cheese'],
-                                'http://img.recipepuppy.com/29939.jpg',
-                                'http://allrecipes.com/Recipe/Jalapeno-Souffle/Detail.aspx'),
-                    new Recipe('Curry and Kabana Sausage Rolls', ['cheese', 'curry powder', 'eggs'],
-                                'http://img.recipepuppy.com/548269.jpg',
-                                'http://www.bestrecipes.com.au/recipe/Curry-and-Kabana-Sausage-Rolls-L3515.html')
-                ];
-            }
         </script>
     </head>
     <body>
