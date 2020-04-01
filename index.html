@@ -63,29 +63,66 @@
                 }
 
                 addRecipeToDocument(recipe) {
-                    function ingredientsToHTML(ingredients) {
-                        let html = '<ul>';
-                        for(let ingredient of ingredients) {
-                            html += `<li>${ingredient}</li>`;
-                        }
-                        html += '</ul>';
-                        return html;
+                    this.container.appendChild(createRecipeElements(recipe));
+
+                    function createRecipeElements(recipe) {
+                        return createContainer([
+                            createTextElement('h2', recipe.title),
+                            createContainer(
+                                [createThumbnailUrlContainer(recipe.thumbnail, recipe.url),
+                                createIngredientContainer(recipe.ingredients)]
+                            )], 'article');
                     }
 
-                    this.container.innerHTML +=
-                    `<article>
-                        <h2>${recipe.title}</h2>
-                        <div>
-                            <div>
-                                <img src="${recipe.thumbnail}">
-                                &rarr; <a href="${recipe.url}">Full Recipe</a>
-                            </div>
-                            <div>
-                                <h3>Ingredients</h3>
-                                ${ingredientsToHTML(recipe.ingredients)}
-                            </div>
-                        </div>
-                    </article>`;
+                    function createThumbnailUrlContainer(thumbnail, url) {
+                        return createContainer([
+                            setAttributes(document.createElement('img'), {src: thumbnail}),
+                            // had to replace &rarrow; with its hex name, see here:
+                            // https://stackoverflow.com/questions/39291156/javascriptoutput-symbols-and-special-characters
+                            document.createTextNode('\u2192'),
+                            setAttributes(createTextElement('a', 'Full Recipe'), {href: url})
+                        ]);
+                    }
+
+                    function createIngredientContainer(ingredients) {
+                        return createContainer([createTextElement('h3', 'Ingredients'),
+                                                createList(recipe.ingredients)]);
+                    }
+
+                    // I had a little too much fun playing with composition here
+                    // that I created an ad-hoc DOM abstraction library
+                    // (It's certainly not perfect, but it provides many
+                    // helpers to construct and compose DOM elements)
+                    function createList(listItems, ordered=false) {
+                        const tag = ordered ? 'ol' : 'ul';
+                        return createContainer(listItems.map(text => createTextElement('li', text)), tag);
+                    }
+
+                    function setAttributes(element, attributes) {
+                        for(let key in attributes) {
+                            // deals with more deeply structured attributes (e.g., style)
+                            if(typeof(attributes[key]) === 'object') {
+                                setAttributes(element[key], attributes[key]);
+                            } else {
+                                element[key] = attributes[key];
+                            }
+                        }
+                        return element;
+                    }
+
+                    function createTextElement(tag, text) {
+                        const element = document.createElement(tag);
+                        element.innerText = text;
+                        return element;
+                    }
+
+                    function createContainer(elements, tag='div') {
+                        const container = document.createElement(tag);
+                        for(let element of elements) {
+                            container.appendChild(element);
+                        }
+                        return container;
+                    }
                 }
             }
 
