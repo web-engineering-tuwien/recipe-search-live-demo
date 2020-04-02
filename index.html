@@ -30,20 +30,28 @@
                 }
             }
 
+            document.addEventListener('DOMContentLoaded', event => {
+                //ingredients
+                const params = (new URL(document.location)).searchParams;
+                const ingredientsQuery = params.get('ingredients');
+                if(!ingredientsQuery) {
+                    return;
+                }
+                const ingredients = ingredientsQuery.split(',');
+                recipeSearch(ingredients);
+            });
+
             const searchInput = document.getElementById('ingredients');
-            searchInput.addEventListener('click', event => event.target.style.border = '')
+            searchInput.addEventListener('click', event => event.target.style.border = '');
 
             const form = document.querySelector('#search form');
             form.addEventListener('submit', event => {
-                //prevents default HTML form behavior on submitting
-                event.preventDefault();
                 const searchInput = document.getElementById('ingredients');
                 if(!searchInput.value) {
-                    searchInput.style.border = "1px solid red"
-                    return;
+                    searchInput.style.border = "1px solid red";
+                    //prevents default HTML form behavior on submitting
+                    event.preventDefault();
                 }
-                const ingredients = searchInput.value.split(',');
-                recipeSearch(ingredients);
             });
         </script>
     </head>
