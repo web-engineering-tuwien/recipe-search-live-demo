@@ -37,8 +37,16 @@ export class RecipeDocumentContainer {
         }
 
         function createIngredientContainer(ingredients) {
+            function getIngredientSearchUrl(ingredient) {
+                return '?ingredients=' + ingredient.trim();
+            }
+
+            const ingredientLinks = recipe.ingredients.map(
+                text => DOM.setAttributes(DOM.textElement('a', text),
+                                          {href: getIngredientSearchUrl(text)})
+            );
             return DOM.container([DOM.textElement('h3', 'Ingredients'),
-                                  DOM.list(recipe.ingredients)]);
+                                  DOM.list(ingredientLinks)]);
         }
     }
 }
