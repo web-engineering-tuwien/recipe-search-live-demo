@@ -37,6 +37,7 @@
                 if(!ingredientsQuery) {
                     return;
                 }
+                document.getElementById('ingredients').value = ingredientsQuery;
                 const ingredients = ingredientsQuery.split(',');
                 recipeSearch(ingredients);
             });
