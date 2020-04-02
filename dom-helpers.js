@@ -4,7 +4,10 @@
 // helpers to construct and compose DOM elements)
 export function list(listItems, ordered=false) {
     const tag = ordered ? 'ol' : 'ul';
-    return container(listItems.map(text => textElement('li', text)), tag);
+    return container(listItems.map(
+        el => typeof(el) === 'string' ?
+            textElement('li', el) :
+            container([el], 'li')), tag);
 }
 
 export function setAttributes(element, attributes) {
