@@ -1,4 +1,6 @@
-import { Recipe, Ingredients } from './recipe.js';
+const API_URL='http://www.recipepuppy.com/api/'
+
+import { Recipe, Ingredients } from '../model/recipe.js';
 import * as RecipeCache from './recipe-cache.js'
 
 export async function retrieve(ingredients) {
@@ -24,12 +26,13 @@ export async function retrieve(ingredients) {
     } catch(error) {
         console.log(`An error happened when trying to retrieving data from URL ${url}`);
         console.log(error);
+        return [];
     }
 }
 
 function api_url(ingredients) {
-    const API_URL = `http://www.recipepuppy.com/api/?i=${Ingredients.serialize(ingredients)}`;
-    return cors_proxy_url(API_URL);
+    //const API_URL = `http://www.recipepuppy.com/api/?i=${Ingredients.serialize(ingredients)}`;
+    return cors_proxy_url(`${API_URL}?i=${Ingredients.serialize(ingredients)}`);
 }
 
 // Helper function that 'wraps' URLs to go through a proxy

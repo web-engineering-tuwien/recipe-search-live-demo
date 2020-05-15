@@ -1,4 +1,4 @@
-import { Recipe, Ingredients } from './recipe.js';
+import { Ingredients } from '../model/recipe.js';
 
 export function retrieve(ingredients) {
     const key = getStorageKey(ingredients);

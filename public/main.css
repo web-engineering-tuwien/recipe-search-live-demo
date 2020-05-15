@@ -48,7 +48,7 @@ header .container {
     flex-wrap: wrap;
 }
 
-main section {
+section {
     margin-left: auto;
     margin-right: auto;
     width: 60%;
