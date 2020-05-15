@@ -2,8 +2,10 @@
     <div id="recipeSearch">
         <section id="search">
             <form role="search" v-on:submit.prevent="recipeSearch()">
-                <label for="ingredients">Ingredients</label>
-                <input v-model="ingredientInput" title="Type in comma-separated ingredients" type="text" id="ingredients" name="ingredients" />
+                <list-search-input 
+                    label="Ingredients"
+                    title="Type in comma-separated ingredients"
+                    v-model="ingredients"/>
                 <button type="submit">Search</button>
             </form>
         </section>
@@ -20,28 +22,20 @@
 
 <script>
     import RecipeItem from "@/components/RecipeItem";
+    import ListSearch from "@/components/ListSearch";
     import * as RecipeAPI from "@/service/recipe-api.js";
 
     export default {
         name : "RecipeSearch",
         components : {
-            'recipe-item' : RecipeItem
+            'recipe-item' : RecipeItem,
+            'list-search-input' : ListSearch
         },        
         data : function() {
             return {
                 recipes: [],
-                ingredientInput : '',
+                ingredients : [],
                 message : "Search for recipes by ingredients"
-            }
-        },
-        computed : {
-            ingredients : {
-                get:  function() {
-                    return this.ingredientInput.split(',');
-                },
-                set: function(ingredients) {
-                    this.ingredientInput = ingredients.join(',');
-                }
             }
         },        
         methods : {
